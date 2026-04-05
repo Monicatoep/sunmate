@@ -64,3 +64,14 @@ npm run dev
 The frontend runs at http://localhost:5176/. 
 If there is a CORS error, change allow_origins in add_middleware in main.py, to your own localhost. 
 
+## Docker
+
+Run the entire project with:
+
+```bash
+docker compose up --build
+```
+
+- Backend: http://localhost:8000
+- Frontend: http://localhost:5173 / http://127.0.0.1:5173/ 
+
