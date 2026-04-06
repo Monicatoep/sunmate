@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Query
 from pydantic import BaseModel, Field
 import datetime as DT
 from datetime import datetime
@@ -65,9 +65,9 @@ async def create_daily_data(item: list[BatteryData], db=Depends(get_db)):
     }
 
 @app.get("/energy/consumption")
-async def get_energy_consumption(db=Depends(get_db)):
+async def get_energy_consumption(skip: int = Query(0, ge=0), limit: int = Query(10, ge=1), db=Depends(get_db)):
     con, cur = db
-    cur.execute("SELECT * FROM energyConsumptionData ORDER BY timestamp ASC;")
+    cur.execute("SELECT * FROM energyConsumptionData ORDER BY timestamp ASC LIMIT ? OFFSET ?;", (limit, skip))
     rows = cur.fetchall()
 
     result = []

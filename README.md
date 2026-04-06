@@ -30,7 +30,7 @@ The API runs at http://localhost:8000
 
 - `POST /battery/daily` - Post battery data (array of `{timestamp, soc}`) and get a response back with "lowest_soc", "highest_soc" and "soc_difference"
 
-- `GET /energy/consumption` - Get all energy consumption entries
+- `GET /energy/consumption` - Get energy consumption entries (supports pagination with `?skip=0&limit=10`)
 
 - `POST /energy/consumption` - Post a consumption entry (`{timestamp, consumption_kwh}`)
 

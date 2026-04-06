@@ -5,12 +5,17 @@ function App() {
   const [batteryData, setBatteryData] = useState(null);
   const [energyConsumptionData, setEnergyConsumptionData] = useState([]);
   const [postResponseEnergyConsumption, setPostResponseEnergyConsumption] = useState(null);
+  const [skip, setSkip] = useState(0);
+  const limit = 10;
   const [postResponseBatteryData, setPostResponseBatteryData] = useState(null);
 
   useEffect(() => {
     fetchBatteryData();
-    fetchEnergyConsumptionData();
   }, []);
+
+  useEffect(() => {
+    fetchEnergyConsumptionData();
+  }, [skip]);
 
   useEffect(() => {
     if (postResponseEnergyConsumption) {
@@ -31,7 +36,7 @@ function App() {
 
   const fetchEnergyConsumptionData = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/energy/consumption');
+      const response = await fetch(`http://127.0.0.1:8000/energy/consumption?skip=${skip}&limit=${limit}`);
       const data = await response.json();
       setEnergyConsumptionData(data);
       console.log('Energy consumption data fetched:', data);
@@ -126,8 +131,12 @@ function App() {
               ))}
             </ul>
           ) : (
-            <p>Loading energy consumption data...</p>
+            <p>{skip === 0 ? 'Loading energy consumption data...' : 'No more data.'}</p>
           )}
+          <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+            <button onClick={() => setSkip(Math.max(0, skip - limit))} disabled={skip === 0}>Previous</button>
+            <button onClick={() => setSkip(skip + limit)} disabled={energyConsumptionData.length < limit}>Next</button>
+          </div>
           <div style={{ marginTop: '30px' }}>
             <h2>Post Energy Consumption Data</h2>
             <form onSubmit={(e) => {
