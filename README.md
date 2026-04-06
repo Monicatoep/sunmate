@@ -64,6 +64,17 @@ npm run dev
 The frontend runs at http://localhost:5176/. 
 If there is a CORS error, change allow_origins in add_middleware in main.py, to your own localhost. 
 
+## Simulator
+
+A script that sends random battery and energy consumption data to the API every 10 seconds.
+
+```bash
+source venv/bin/activate
+python simulator.py
+```
+
+Make sure the API is running first.
+
 ## Docker
 
 Run the entire project with:
